@@ -1,3 +1,4 @@
+import { supabase } from './common/config/supabase.js';
 import cors from 'cors';
 import express from 'express';
 import { env } from './common/config/env.js';
