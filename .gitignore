@@ -44,3 +44,6 @@ schema db/
 
 # Local tooling files
 *.local
+
+#Push db on supabase or postgre (smt like that, idk...)
+scripts/push-schema.ps1
