@@ -17,6 +17,10 @@ import MixCanvasPage from './components/MixCanvasPage';
 import WardrobePage from './components/WardrobePage';
 import OutfitDetailPage from './components/OutfitDetailPage';
 import AuthModal from './components/AuthModal';
+import BrandAuthFlowPage from './components/brand-auth/BrandAuthFlowPage';
+import UserAuthFlowPage from './components/user-auth/UserAuthFlowPage';
+import MobileBrandAuthFlowPage from './components/mobile-brand-auth/MobileBrandAuthFlowPage';
+import MobileUserAuthFlowPage from './components/mobile-user-auth/MobileUserAuthFlowPage';
 import { newArrivals, curatedOutfits } from './data/mockData';
 import { Wifi, Battery, Signal, Check } from 'lucide-react';
 
@@ -383,6 +387,34 @@ export default function App() {
       );
     }
 
+    if (currentPage === 'brand-auth' || currentPage === 'mobile-brand-auth' || currentPage === 'portal-select' || currentPage.startsWith('brand-')) {
+      const initialSub = currentPage === 'brand-auth' || currentPage === 'mobile-brand-auth' ? 'portal-select' : currentPage;
+      const onToast = (message) => {
+        setToastMessage(message);
+        setTimeout(() => setToastMessage(''), 3500);
+      };
+
+      if (isMobile || currentPage === 'mobile-brand-auth') {
+        return <MobileBrandAuthFlowPage initialSubScreen={initialSub} onBackToApp={(page) => handlePageChange(page || 'home')} onNavigateToUser={(page) => handlePageChange(page || 'user-auth')} onToast={onToast} />;
+      }
+
+      return <BrandAuthFlowPage initialSubScreen={initialSub} onBackToApp={(page) => handlePageChange(page || 'home')} onNavigateToUser={(page) => handlePageChange(page || 'user-auth')} onToast={onToast} />;
+    }
+
+    if (currentPage === 'user-auth' || currentPage === 'mobile-user-auth' || currentPage === 'user-select' || currentPage.startsWith('user-')) {
+      const initialSub = currentPage === 'user-auth' || currentPage === 'mobile-user-auth' ? 'user-login' : currentPage === 'user-select' ? 'portal-select' : currentPage;
+      const onToast = (message) => {
+        setToastMessage(message);
+        setTimeout(() => setToastMessage(''), 3500);
+      };
+
+      if (isMobile || currentPage === 'mobile-user-auth') {
+        return <MobileUserAuthFlowPage initialSubScreen={initialSub} onBackToApp={(page) => handlePageChange(page || 'home')} onNavigateToBrand={(page) => handlePageChange(page || 'mobile-brand-auth')} onToast={onToast} />;
+      }
+
+      return <UserAuthFlowPage initialSubScreen={initialSub} onBackToApp={(page) => handlePageChange(page || 'home')} onNavigateToBrand={(page) => handlePageChange(page || 'brand-auth')} onToast={onToast} />;
+    }
+
     // 6. BRAND PAGE (Linen & Logic)
     return (
       <div className="bg-[#FBFBFA] min-h-screen text-[#151816] flex flex-col justify-between">
@@ -543,6 +575,7 @@ export default function App() {
       <AuthModal
         isOpen={isAuthOpen}
         onClose={() => setIsAuthOpen(false)}
+        onOpenBrandPortal={() => handlePageChange('brand-auth')}
       />
     </div>
   );
