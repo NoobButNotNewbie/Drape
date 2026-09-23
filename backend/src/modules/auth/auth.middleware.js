@@ -1,14 +1,18 @@
-import jwt from 'jsonwebtoken';
-import { env } from '../../common/config/env.js';
+import { supabase } from '../../common/config/supabase.js';
 
-export function requireAuth(request, response, next) {
-  const token = request.headers.authorization?.replace('Bearer ', '');
+export async function requireAuth(request, response, next) {
+  const token = request.headers.authorization?.replace(/^Bearer\s+/i, '');
   if (!token) return response.status(401).json({ error: 'Authentication required' });
 
+  const { data, error } = await supabase.auth.getUser(token);
+  if (error || !data.user) {
+    return response.status(401).json({ error: 'Invalid or expired token' });
+  }
+
   try {
-    request.user = jwt.verify(token, env.jwtSecret);
+    request.user = data.user;
     next();
   } catch {
-    response.status(401).json({ error: 'Invalid or expired token' });
+    next(error);
   }
 }
