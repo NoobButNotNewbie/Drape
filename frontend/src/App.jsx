@@ -7,8 +7,6 @@ import Footer from './components/Footer';
 import MobileBottomNav from './components/MobileBottomNav';
 import ProductModal from './components/ProductModal';
 import LookbookModal from './components/LookbookModal';
-import DeviceSimulatorBar from './components/DeviceSimulatorBar';
-import DesignReferenceModal from './components/DesignReferenceModal';
 import HomeDashboardPage from './components/HomeDashboardPage';
 import WardrobeFocusPage from './components/WardrobeFocusPage';
 import SearchPage from './components/SearchPage';
@@ -47,9 +45,8 @@ const pathFromPage = (page, selectedOutfit) => {
 };
 
 export default function App() {
-  const [viewMode, setViewMode] = useState('desktop');
+  const [viewMode] = useState('responsive');
   const [currentPage, setCurrentPage] = useState(() => pageFromPath(window.location.pathname));
-  const [showDesignRef, setShowDesignRef] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [activeDesktopTab, setActiveDesktopTab] = useState('feed');
   const [activeMobileTab, setActiveMobileTab] = useState('home');
@@ -535,15 +532,6 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#F0EFEB] flex flex-col selection:bg-[#1A3C24] selection:text-white">
-      {/* Top Device Simulator Controller */}
-      <DeviceSimulatorBar
-        viewMode={viewMode}
-        setViewMode={setViewMode}
-        onOpenDesignRef={() => setShowDesignRef(true)}
-        currentPage={currentPage}
-        onPageChange={handlePageChange}
-      />
-
       {/* Toast Notification */}
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-50 bg-[#16291C] text-white px-4 py-2.5 rounded-lg shadow-xl text-xs flex items-center space-x-2 border border-[#2B4B34] animate-in fade-in slide-in-from-bottom-2 duration-200">
@@ -628,10 +616,6 @@ export default function App() {
           onSelectProduct={(product) => setSelectedProduct(product)}
           products={newArrivals}
         />
-      )}
-
-      {showDesignRef && (
-        <DesignReferenceModal onClose={() => setShowDesignRef(false)} />
       )}
 
       {/* Auth Login / Register Modal */}
