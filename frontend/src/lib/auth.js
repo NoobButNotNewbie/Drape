@@ -28,3 +28,13 @@ export async function signInWithProvider(provider) {
   });
   if (error) throw error;
 }
+
+export function getUserDisplayName(user) {
+  const metadata = user?.user_metadata || {};
+  return metadata.full_name || metadata.name || metadata.display_name || user?.email || 'Tài khoản Drape';
+}
+
+export function getUserAvatarUrl(user) {
+  const metadata = user?.user_metadata || {};
+  return metadata.avatar_url || metadata.picture || null;
+}

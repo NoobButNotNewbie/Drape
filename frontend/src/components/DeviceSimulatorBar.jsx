@@ -23,17 +23,6 @@ export default function DeviceSimulatorBar({
           {/* Quick Page Navigator */}
           <div className="flex flex-wrap items-center bg-[#0F1712] p-0.5 rounded-lg border border-[#25392C] text-[11px]">
             <button
-              onClick={() => onPageChange('home')}
-              className={`px-2 py-1 rounded-md font-medium transition-all ${
-                currentPage === 'home'
-                  ? 'bg-[#21432C] text-white shadow-xs font-semibold'
-                  : 'text-[#9CB0A2] hover:text-white'
-              }`}
-              title="Trang chủ AI Stylist Dashboard"
-            >
-              1. Home
-            </button>
-            <button
               onClick={() => onPageChange('wardrobe-focus')}
               className={`px-2 py-1 rounded-md font-medium transition-all ${
                 currentPage === 'wardrobe-focus'

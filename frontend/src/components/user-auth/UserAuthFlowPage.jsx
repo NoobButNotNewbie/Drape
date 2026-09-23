@@ -28,10 +28,10 @@ export default function UserAuthFlowPage({
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleLoginSuccess = ({ email }) => {
-    if (onToast) onToast(`Đăng nhập thành công! Chào mừng quý ông ${email || ''}.`);
+  const handleLoginSuccess = ({ email, user }) => {
+    if (onToast) onToast(`Đăng nhập thành công! Chào mừng quý ông ${user?.user_metadata?.full_name || user?.user_metadata?.name || email || ''}.`);
     if (onAuthSuccess) {
-      onAuthSuccess();
+      onAuthSuccess(user);
     } else {
       setTimeout(() => {
         if (onBackToApp) onBackToApp('feed');

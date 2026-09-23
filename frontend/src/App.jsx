@@ -48,7 +48,7 @@ export default function App() {
   const [viewMode] = useState('responsive');
   const [currentPage, setCurrentPage] = useState(() => pageFromPath(window.location.pathname));
   const [activeDesktopTab, setActiveDesktopTab] = useState('feed');
-  const [activeMobileTab, setActiveMobileTab] = useState('home');
+  const [activeMobileTab, setActiveMobileTab] = useState('feed');
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedOutfit, setSelectedOutfit] = useState(() => {
     const outfitId = outfitIdFromPath(window.location.pathname);
@@ -244,8 +244,9 @@ export default function App() {
     handleAddToCart({ ...item, size: 'One size', color: 'Default' });
   };
 
-  const handleAuthSuccess = () => {
+  const handleAuthSuccess = (user) => {
     setIsAuthenticated(true);
+    if (user) setCurrentUser(user);
     if (pendingCartItems.length) {
       setCart((prev) => [...prev, ...pendingCartItems]);
       setPendingCartItems([]);
@@ -281,6 +282,7 @@ export default function App() {
                 onNavigateToBrand={() => handlePageChange('brand')}
                 onOpenAuth={handleOpenAuth}
                 onOpenNotifications={handleOpenNotifications}
+                currentUser={currentUser}
               />
             )}
 
@@ -324,6 +326,7 @@ export default function App() {
                 onNavigateToBrand={() => handlePageChange('brand')}
                 onOpenAuth={handleOpenAuth}
                 onOpenNotifications={handleOpenNotifications}
+                currentUser={currentUser}
               />
             )}
 
@@ -366,6 +369,7 @@ export default function App() {
                 onNavigateToBrand={() => handlePageChange('brand')}
                 onOpenAuth={handleOpenAuth}
                 onOpenNotifications={handleOpenNotifications}
+                currentUser={currentUser}
               />
             )}
 
@@ -406,6 +410,7 @@ export default function App() {
                 onNavigateToBrand={() => handlePageChange('brand')}
                 onOpenAuth={handleOpenAuth}
                 onOpenNotifications={handleOpenNotifications}
+                currentUser={currentUser}
               />
             )}
 
@@ -446,6 +451,7 @@ export default function App() {
                 onNavigateToBrand={() => handlePageChange('brand')}
                 onOpenAuth={handleOpenAuth}
                 onOpenNotifications={handleOpenNotifications}
+                currentUser={currentUser}
               />
             )}
 
@@ -485,6 +491,7 @@ export default function App() {
                 onNavigateToBrand={() => handlePageChange('brand')}
                 onOpenAuth={handleOpenAuth}
                 onOpenNotifications={handleOpenNotifications}
+                currentUser={currentUser}
               />
             )}
 
@@ -594,6 +601,7 @@ export default function App() {
             onNavigateToSearch={() => handlePageChange('search')}
             onNavigateToBrand={() => handlePageChange('brand')}
             onOpenAuth={handleOpenAuth}
+            currentUser={currentUser}
           />
 
           {/* Brand Hero Banner */}
@@ -657,7 +665,14 @@ export default function App() {
       {showAccountPanel && isAuthenticated && (
         <div className="fixed top-20 right-5 z-50 w-72 rounded-xl border border-[#E2DDD3] bg-white p-5 shadow-xl">
           <h3 className="font-serif-luxury text-base font-bold text-[#183B22]">Tài khoản Drape</h3>
-          <p className="mt-3 break-all text-xs text-[#706C64]">{currentUser?.email || 'Tài khoản Facebook'}</p>
+          <div className="mt-3 flex items-center gap-3">
+            <div className="h-10 w-10 shrink-0 overflow-hidden rounded-full border border-[#D5CEC2] bg-[#E5DFD5] flex items-center justify-center text-[#1A3C24]">
+              {currentUser?.user_metadata?.avatar_url || currentUser?.user_metadata?.picture ? (
+                <img src={currentUser.user_metadata.avatar_url || currentUser.user_metadata.picture} alt="" className="h-full w-full object-cover" />
+              ) : <span className="text-sm font-semibold">{(currentUser?.user_metadata?.full_name || currentUser?.user_metadata?.name || currentUser?.email || 'D').charAt(0).toUpperCase()}</span>}
+            </div>
+            <p className="break-all text-xs text-[#706C64]">{currentUser?.user_metadata?.full_name || currentUser?.user_metadata?.name || currentUser?.user_metadata?.display_name || currentUser?.email || 'Tài khoản Drape'}</p>
+          </div>
           <button onClick={handleSignOut} className="mt-5 w-full rounded-md bg-[#183B22] px-3 py-2 text-xs font-semibold text-white">Đăng xuất</button>
         </div>
       )}
