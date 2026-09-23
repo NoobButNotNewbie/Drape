@@ -73,7 +73,7 @@ export default function UserAuthHeader({
       <div className="max-w-7xl mx-auto px-4 sm:px-8 h-20 flex items-center justify-between">
         {/* Left: Brand Logo */}
         <button
-          onClick={() => onNavigate?.('portal-select')}
+          onClick={() => onNavigate?.('user-login')}
           className="font-serif-luxury text-2xl sm:text-3xl font-bold tracking-[0.16em] text-[#1A3C24] hover:opacity-80 transition-opacity"
           title="DRAPE - Luxury Menswear"
         >

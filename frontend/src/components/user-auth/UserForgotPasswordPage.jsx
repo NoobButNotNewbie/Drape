@@ -2,30 +2,33 @@ import React, { useState } from 'react';
 import { Mail, Lock, ShieldCheck, Check } from 'lucide-react';
 import UserAuthHeader from './UserAuthHeader';
 import UserAuthFooter from './UserAuthFooter';
+import { isGmailAddress, sendPasswordResetEmail } from '../../lib/accountEmail';
 
 export default function UserForgotPasswordPage({
   onNavigate,
   onBackToApp,
   onSendCodeSuccess,
 }) {
-  const [email, setEmail] = useState('arthur.morgan@example.com');
+  const [email, setEmail] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [isSent, setIsSent] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!isGmailAddress(email)) {
+      alert('Vui lòng nhập đúng địa chỉ Gmail đã đăng ký.');
+      return;
+    }
     setIsSending(true);
-    setTimeout(() => {
+    try {
+      await sendPasswordResetEmail(email.trim());
       setIsSending(false);
       setIsSent(true);
-      setTimeout(() => {
-        if (onSendCodeSuccess) {
-          onSendCodeSuccess(email);
-        } else {
-          onNavigate?.('user-otp');
-        }
-      }, 1000);
-    }, 700);
+      if (onSendCodeSuccess) onSendCodeSuccess(email.trim());
+    } catch (error) {
+      setIsSending(false);
+      alert(error.message);
+    }
   };
 
   return (
@@ -89,7 +92,7 @@ export default function UserForgotPasswordPage({
               IDENTIFICATION
             </span>
             <p className="text-xs text-[#52504A] leading-relaxed">
-              Enter the email associated with your DRAPE account to receive a verification code.
+              Nhập email đã dùng để đăng ký. DRAPE sẽ gửi một liên kết xác nhận đặt lại mật khẩu.
             </p>
           </div>
 
@@ -116,23 +119,17 @@ export default function UserForgotPasswordPage({
               {isSent ? (
                 <>
                   <Check className="w-4 h-4 text-emerald-300" />
-                  <span>Verification Code Dispatched</span>
+                  <span>Đã gửi email khôi phục</span>
                 </>
               ) : isSending ? (
-                <span>Generating Token...</span>
+                <span>Đang gửi email...</span>
               ) : (
-                <span>Send Reset Code</span>
+                <span>Gửi email khôi phục</span>
               )}
             </button>
 
             <div className="text-center pt-2">
-              <button
-                type="button"
-                onClick={() => onNavigate?.('user-login')}
-                className="text-xs text-[#6A675F] hover:text-[#1A3C24] transition-colors inline-block"
-              >
-                Return to login portal
-              </button>
+              {isSent && <p className="text-xs text-[#1A3C24]">Mở email và bấm liên kết để đặt mật khẩu mới.</p>}
             </div>
           </form>
         </div>

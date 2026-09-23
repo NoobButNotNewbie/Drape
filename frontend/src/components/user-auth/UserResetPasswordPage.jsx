@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Eye, EyeOff, Check, Circle, CheckCircle2, ArrowRight } from 'lucide-react';
 import UserAuthHeader from './UserAuthHeader';
 import UserAuthFooter from './UserAuthFooter';
+import { updatePassword } from '../../lib/accountEmail';
+import { supabase } from '../../lib/supabase';
 
 export default function UserResetPasswordPage({
   onNavigate,
@@ -21,7 +23,7 @@ export default function UserResetPasswordPage({
   const hasSpecialChar = /[@#!]/.test(newPassword) || /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(newPassword);
   const isMatch = Boolean(newPassword && confirmPassword && newPassword === confirmPassword);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!hasMinLength || !hasLetterAndNumber || !hasSpecialChar) {
       alert('Vui lòng hoàn thành tất cả các tiêu chuẩn bảo mật.');
@@ -33,7 +35,9 @@ export default function UserResetPasswordPage({
     }
 
     setIsSaving(true);
-    setTimeout(() => {
+    try {
+      await updatePassword(newPassword);
+      await supabase.auth.signOut();
       setIsSaving(false);
       setIsSaved(true);
       setTimeout(() => {
@@ -43,7 +47,10 @@ export default function UserResetPasswordPage({
           onNavigate?.('user-login');
         }
       }, 1200);
-    }, 800);
+    } catch (error) {
+      setIsSaving(false);
+      alert(error.message);
+    }
   };
 
   return (
@@ -212,16 +219,6 @@ export default function UserResetPasswordPage({
               </button>
             </form>
 
-            {/* Back to login */}
-            <div className="mt-6 text-center">
-              <button
-                type="button"
-                onClick={() => onNavigate?.('user-login')}
-                className="text-xs text-[#52504A] hover:text-[#1A3C24] transition-colors"
-              >
-                ← Quay lại trang đăng nhập
-              </button>
-            </div>
           </div>
         </div>
       </main>

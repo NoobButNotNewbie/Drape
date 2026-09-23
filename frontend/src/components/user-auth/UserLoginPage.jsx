@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Eye, EyeOff, ArrowRight, Check } from 'lucide-react';
 import UserAuthHeader from './UserAuthHeader';
 import UserAuthFooter from './UserAuthFooter';
-import { loginAccount } from '../../lib/api';
+import { signInWithEmail, signInWithProvider } from '../../lib/auth';
 
 export default function UserLoginPage({
   onNavigate,
@@ -17,14 +17,24 @@ export default function UserLoginPage({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const email = emailOrPhone.trim();
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      alert('Vui lòng nhập email hợp lệ.');
+      return;
+    }
+    if (password.length < 8) {
+      alert('Mật khẩu phải có ít nhất 8 ký tự.');
+      return;
+    }
     setIsLoading(true);
     try {
-      await loginAccount({ email: emailOrPhone, password });
+      const { user } = await signInWithEmail({ email, password });
+      if (!user?.id) throw new Error('Không xác nhận được tài khoản. Vui lòng thử lại.');
       setIsLoading(false);
       setIsSuccess(true);
       setTimeout(() => {
         if (onLoginSuccess) {
-          onLoginSuccess({ email: emailOrPhone });
+          onLoginSuccess({ email: user.email || email, user });
         } else if (onBackToApp) {
           onBackToApp('home');
         }
@@ -57,50 +67,7 @@ export default function UserLoginPage({
             </p>
           </div>
 
-          {/* Social Sign In Buttons */}
-          <div className="space-y-3 mb-6">
-            {/* Google */}
-            <button
-              type="button"
-              onClick={() => {
-                setEmailOrPhone('gentleman@gmail.com');
-                setPassword('DrapeClient2026!');
-              }}
-              className="w-full py-2.5 px-4 bg-[#FBFBFA] hover:bg-[#F3EFE7] border border-[#E2DDD3] rounded-md text-xs font-medium text-[#2C2A26] flex items-center justify-center space-x-3 transition-colors group"
-            >
-              <span className="font-serif-luxury tracking-widest text-sm font-semibold text-[#333]">
-                G O O G L E
-              </span>
-              <span className="text-[#555]">Continue with Google</span>
-            </button>
-
-            {/* Facebook */}
-            <button
-              type="button"
-              onClick={() => {
-                setEmailOrPhone('gentleman@facebook.com');
-                setPassword('DrapeClient2026!');
-              }}
-              className="w-full py-2.5 px-4 bg-[#FBFBFA] hover:bg-[#F3EFE7] border border-[#E2DDD3] rounded-md text-xs font-medium text-[#2C2A26] flex items-center justify-center space-x-2.5 transition-colors"
-            >
-              <svg className="w-4 h-4 fill-[#1877F2]" viewBox="0 0 24 24">
-                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-              </svg>
-              <span>Continue with Facebook</span>
-            </button>
-          </div>
-
-          {/* Divider */}
-          <div className="relative my-6 text-center">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-[#EAE6DF]"></div>
-            </div>
-            <div className="relative flex justify-center">
-              <span className="bg-white px-3 font-mono text-[10px] tracking-[0.2em] text-[#9A968D] uppercase">
-                OR USE EMAIL
-              </span>
-            </div>
-          </div>
+          {/* Email login */}
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-5">
@@ -174,6 +141,21 @@ export default function UserLoginPage({
               )}
             </button>
           </form>
+
+          <div className="relative my-6 text-center">
+            <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-[#EAE6DF]"></div></div>
+            <span className="relative bg-white px-3 font-mono text-[10px] tracking-[0.2em] text-[#9A968D] uppercase">OR CONTINUE WITH</span>
+          </div>
+
+          {/* Facebook login */}
+          <button
+            type="button"
+            onClick={() => signInWithProvider('facebook').catch((error) => alert(error.message))}
+            className="w-full py-2.5 px-4 bg-[#FBFBFA] hover:bg-[#F3EFE7] border border-[#E2DDD3] rounded-md text-xs font-medium text-[#2C2A26] flex items-center justify-center space-x-2.5 transition-colors"
+          >
+            <svg className="w-4 h-4 fill-[#1877F2]" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            <span>Đăng nhập bằng Facebook</span>
+          </button>
 
           {/* Footer switch to Register */}
           <div className="text-center mt-7 pt-5 border-t border-[#F0ECE5] text-xs text-[#6A675F]">
