@@ -20,6 +20,7 @@ import MobileBrandAuthFlowPage from './components/mobile-brand-auth/MobileBrandA
 import MobileUserAuthFlowPage from './components/mobile-user-auth/MobileUserAuthFlowPage';
 import { supabase } from './lib/supabase';
 import { newArrivals, curatedOutfits } from './data/mockData';
+import { initialWardrobePieces } from './data/wardrobeData';
 import { Wifi, Battery, Signal, Check } from 'lucide-react';
 
 const pageFromPath = (pathname) => {
@@ -57,6 +58,7 @@ export default function App() {
   });
   const [wishlist, setWishlist] = useState(['heritage-linen-shirt']);
   const [cart, setCart] = useState([]);
+  const [wardrobePieces, setWardrobePieces] = useState(initialWardrobePieces);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [authInitialScreen, setAuthInitialScreen] = useState('user-login');
@@ -419,6 +421,8 @@ export default function App() {
               onNavigateToCanvas={() => handlePageChange('canvas')}
               onOpenAuth={handleOpenAuth}
               onOpenNotifications={handleOpenNotifications}
+              pieces={wardrobePieces}
+              setPieces={setWardrobePieces}
             />
           </div>
 
@@ -461,6 +465,7 @@ export default function App() {
               onNavigateToBrand={() => handlePageChange('brand')}
               onOpenAuth={handleOpenAuth}
               onOpenNotifications={handleOpenNotifications}
+              wardrobePieces={wardrobePieces}
             />
           </div>
 

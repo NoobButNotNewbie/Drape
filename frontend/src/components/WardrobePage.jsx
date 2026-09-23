@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import { initialWardrobePieces } from '../data/wardrobeData';
 import WardrobePageMobile from './mobile/WardrobePageMobile';
 import WardrobePageDesktop from './desktop/WardrobePageDesktop';
 
-export default function WardrobePage({ isMobileFrame, onNavigateToCanvas, onOpenAuth }) {
-  const [pieces, setPieces] = useState(initialWardrobePieces);
+export default function WardrobePage({ isMobileFrame, onNavigateToCanvas, onOpenAuth, pieces, setPieces }) {
   const [activeCategory, setActiveCategory] = useState('all');
   const [isAddOpen, setIsAddOpen] = useState(false);
   const filteredPieces = pieces.filter((item) => activeCategory === 'all' || item.category === activeCategory);
