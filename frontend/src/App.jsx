@@ -24,17 +24,44 @@ import MobileUserAuthFlowPage from './components/mobile-user-auth/MobileUserAuth
 import { newArrivals, curatedOutfits } from './data/mockData';
 import { Wifi, Battery, Signal, Check } from 'lucide-react';
 
+const pageFromPath = (pathname) => {
+  if (pathname === '/' || pathname === '/feed') return 'feed';
+  if (pathname === '/wardrobe') return 'wardrobe';
+  if (pathname === '/mix-canvas' || pathname === '/canvas') return 'canvas';
+  if (pathname === '/login') return 'user-auth';
+  if (pathname.startsWith('/outfits/')) return 'outfit-detail';
+  if (pathname === '/search') return 'search';
+  return 'feed';
+};
+
+const outfitIdFromPath = (pathname) => pathname.startsWith('/outfits/') ? pathname.split('/')[2] : null;
+
+const pathFromPage = (page, selectedOutfit) => {
+  if (page === 'feed') return '/feed';
+  if (page === 'wardrobe') return '/wardrobe';
+  if (page === 'canvas') return '/mix-canvas';
+  if (page === 'outfit-detail') return `/outfits/${selectedOutfit?.id || 'the-modern-minimalist'}`;
+  if (page === 'search') return '/search';
+  if (page === 'user-auth') return '/login';
+  return '/feed';
+};
+
 export default function App() {
-  const [viewMode, setViewMode] = useState('responsive');
-  const [currentPage, setCurrentPage] = useState('home'); // 'home' | 'wardrobe-focus' | 'feed' | 'wardrobe' | 'canvas' | 'outfit-detail' | 'search' | 'brand'
+  const [viewMode, setViewMode] = useState('desktop');
+  const [currentPage, setCurrentPage] = useState(() => pageFromPath(window.location.pathname));
   const [showDesignRef, setShowDesignRef] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [activeDesktopTab, setActiveDesktopTab] = useState('feed');
   const [activeMobileTab, setActiveMobileTab] = useState('home');
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [selectedOutfit, setSelectedOutfit] = useState(null);
+  const [selectedOutfit, setSelectedOutfit] = useState(() => {
+    const outfitId = outfitIdFromPath(window.location.pathname);
+    return outfitId ? { id: outfitId } : null;
+  });
   const [wishlist, setWishlist] = useState(['heritage-linen-shirt']);
   const [cart, setCart] = useState([]);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [pendingCartItems, setPendingCartItems] = useState([]);
   const [toastMessage, setToastMessage] = useState('');
 
   // Shortcut ⌘ K / Ctrl + K to go to Search
@@ -52,22 +79,35 @@ export default function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  useEffect(() => {
+    const handlePopState = () => {
+      const page = pageFromPath(window.location.pathname);
+      const outfitId = outfitIdFromPath(window.location.pathname);
+      if (outfitId) setSelectedOutfit({ id: outfitId });
+      setCurrentPage(page);
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
   const handleMobileTabChange = (tabId) => {
     setActiveMobileTab(tabId);
     if (tabId === 'home') {
-      setCurrentPage('home');
+      handlePageChange('home');
     } else if (tabId === 'feed') {
-      setCurrentPage('feed');
+      handlePageChange('feed');
     } else if (tabId === 'wardrobe') {
-      setCurrentPage('wardrobe');
+      handlePageChange('wardrobe');
     } else if (tabId === 'canvas') {
-      setCurrentPage('canvas');
+      handlePageChange('canvas');
     } else if (tabId === 'profile') {
-      setCurrentPage('brand');
+      handlePageChange('brand');
     }
   };
 
   const handlePageChange = (page) => {
+    const nextPath = pathFromPage(page, selectedOutfit);
+    if (window.location.pathname !== nextPath) window.history.pushState({ page }, '', nextPath);
     setCurrentPage(page);
     if (page === 'home') {
       setActiveMobileTab('home');
@@ -94,6 +134,12 @@ export default function App() {
     }
   };
 
+  const handleOpenOutfit = (outfit) => {
+    setSelectedOutfit(outfit);
+    window.history.pushState({ page: 'outfit-detail' }, '', `/outfits/${outfit.id}`);
+    setCurrentPage('outfit-detail');
+  };
+
   const toggleWishlist = (productId) => {
     setWishlist((prev) =>
       prev.includes(productId)
@@ -103,9 +149,29 @@ export default function App() {
   };
 
   const handleAddToCart = (product) => {
+    if (!isAuthenticated) {
+      setPendingCartItems((prev) => [...prev, product]);
+      handlePageChange('user-auth');
+      return;
+    }
     setCart((prev) => [...prev, product]);
     setToastMessage(`Added "${product.name}" to your Bag`);
     setTimeout(() => setToastMessage(''), 3000);
+  };
+
+  const handleOutfitItemAdd = (item) => {
+    handleAddToCart({ ...item, size: 'One size', color: 'Default' });
+  };
+
+  const handleAuthSuccess = () => {
+    setIsAuthenticated(true);
+    if (pendingCartItems.length) {
+      setCart((prev) => [...prev, ...pendingCartItems]);
+      setPendingCartItems([]);
+      setToastMessage('Đã thêm sản phẩm của outfit vào giỏ hàng');
+      setTimeout(() => setToastMessage(''), 3000);
+    }
+    handlePageChange('outfit-detail');
   };
 
   // Main Page Content (can be rendered in full screen or inside mobile simulator frame)
@@ -136,10 +202,7 @@ export default function App() {
               onNavigateToWardrobe={() => handlePageChange('wardrobe-focus')}
               onNavigateToSearch={() => handlePageChange('search')}
               onNavigateToBrand={() => handlePageChange('brand')}
-              onSelectOutfit={(outfit) => {
-                setSelectedOutfit(outfit);
-                handlePageChange('outfit-detail');
-              }}
+              onSelectOutfit={handleOpenOutfit}
               onOpenAuth={() => setIsAuthOpen(true)}
             />
           </div>
@@ -216,10 +279,7 @@ export default function App() {
 
             <FeedPage
               isMobileFrame={isMobile}
-              onSelectOutfit={(outfit) => {
-                setSelectedOutfit(outfit);
-                handlePageChange('outfit-detail');
-              }}
+              onSelectOutfit={handleOpenOutfit}
               onNavigateToCanvas={() => handlePageChange('canvas')}
               onNavigateToSearch={() => handlePageChange('search')}
               onOpenAuth={() => setIsAuthOpen(true)}
@@ -336,6 +396,9 @@ export default function App() {
               onBack={() => handlePageChange('feed')}
               onNavigateToCanvas={() => handlePageChange('canvas')}
               onOpenAuth={() => setIsAuthOpen(true)}
+              onAddToCart={handleOutfitItemAdd}
+              isAuthenticated={isAuthenticated}
+              onRequireAuth={() => handlePageChange('user-auth')}
             />
           </div>
 
@@ -409,10 +472,10 @@ export default function App() {
       };
 
       if (isMobile || currentPage === 'mobile-user-auth') {
-        return <MobileUserAuthFlowPage initialSubScreen={initialSub} onBackToApp={(page) => handlePageChange(page || 'home')} onNavigateToBrand={(page) => handlePageChange(page || 'mobile-brand-auth')} onToast={onToast} />;
+        return <MobileUserAuthFlowPage initialSubScreen={initialSub} onBackToApp={(page) => handlePageChange(page || 'feed')} onNavigateToBrand={(page) => handlePageChange(page || 'mobile-brand-auth')} onToast={onToast} onAuthSuccess={handleAuthSuccess} />;
       }
 
-      return <UserAuthFlowPage initialSubScreen={initialSub} onBackToApp={(page) => handlePageChange(page || 'home')} onNavigateToBrand={(page) => handlePageChange(page || 'brand-auth')} onToast={onToast} />;
+      return <UserAuthFlowPage initialSubScreen={initialSub} onBackToApp={(page) => handlePageChange(page || 'feed')} onNavigateToBrand={(page) => handlePageChange(page || 'brand-auth')} onToast={onToast} onAuthSuccess={handleAuthSuccess} />;
     }
 
     // 6. BRAND PAGE (Linen & Logic)

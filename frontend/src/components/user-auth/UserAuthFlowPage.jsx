@@ -11,6 +11,7 @@ export default function UserAuthFlowPage({
   onBackToApp,
   onToast,
   onNavigateToBrand,
+  onAuthSuccess,
 }) {
   const [currentScreen, setCurrentScreen] = useState(initialSubScreen);
   const [userEmail, setUserEmail] = useState('');
@@ -28,16 +29,24 @@ export default function UserAuthFlowPage({
 
   const handleLoginSuccess = ({ email }) => {
     if (onToast) onToast(`Đăng nhập thành công! Chào mừng quý ông ${email || ''}.`);
-    setTimeout(() => {
-      if (onBackToApp) onBackToApp('home');
-    }, 1000);
+    if (onAuthSuccess) {
+      onAuthSuccess();
+    } else {
+      setTimeout(() => {
+        if (onBackToApp) onBackToApp('feed');
+      }, 1000);
+    }
   };
 
   const handleRegisterSuccess = ({ fullName, email }) => {
     if (onToast) onToast(`Tạo hồ sơ Style DNA cho "${fullName || email}" thành công!`);
-    setTimeout(() => {
-      if (onBackToApp) onBackToApp('dna-flow');
-    }, 1200);
+    if (onAuthSuccess) {
+      onAuthSuccess();
+    } else {
+      setTimeout(() => {
+        if (onBackToApp) onBackToApp('feed');
+      }, 1200);
+    }
   };
 
   const handleSendCodeSuccess = (email) => {

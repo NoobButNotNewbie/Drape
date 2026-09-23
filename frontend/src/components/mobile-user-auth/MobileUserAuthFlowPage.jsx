@@ -11,6 +11,7 @@ export default function MobileUserAuthFlowPage({
   onBackToApp,
   onToast,
   onNavigateToBrand,
+  onAuthSuccess,
 }) {
   const [currentScreen, setCurrentScreen] = useState(initialSubScreen);
   const [userEmail, setUserEmail] = useState('khachhang@drape.vn');
@@ -28,16 +29,16 @@ export default function MobileUserAuthFlowPage({
 
   const handleLoginSuccess = ({ email }) => {
     if (onToast) onToast(`Chào mừng quý khách ${email} đã đăng nhập!`);
-    setTimeout(() => {
-      if (onBackToApp) onBackToApp('home');
+    if (onAuthSuccess) onAuthSuccess();
+    else setTimeout(() => {
+      if (onBackToApp) onBackToApp('feed');
     }, 1000);
   };
 
   const handleRegisterSuccess = ({ fullName, email }) => {
     if (onToast) onToast(`Đăng ký tài khoản cho ${fullName || email} thành công!`);
-    setTimeout(() => {
-      setCurrentScreen('user-login');
-    }, 1200);
+    if (onAuthSuccess) onAuthSuccess();
+    else setTimeout(() => setCurrentScreen('user-login'), 1200);
   };
 
   const handleSendCodeSuccess = (email) => {
