@@ -11,7 +11,6 @@ export default function NavbarDesktop({ activeTab, setActiveTab, onNavigateToHom
           <span className="font-serif-luxury text-2xl font-bold tracking-widest text-[#151816]">DRAPE</span>
           <nav className="hidden md:flex items-center space-x-7 text-sm font-medium text-[#6A675F]">
             <button onClick={() => { setActiveTab('feed'); onNavigateToFeed(); }} className={`pb-1 transition-all ${activeTab === 'feed' ? 'text-[#151816] border-b-2 border-[#1A3C24] font-semibold' : 'hover:text-[#151816]'}`}>Feed</button>
-            <button onClick={() => { setActiveTab('wardrobe'); onNavigateToWardrobe ? onNavigateToWardrobe() : onNavigateToBrand(); }} className={`pb-1 transition-all ${activeTab === 'wardrobe' ? 'text-[#151816] border-b-2 border-[#1A3C24] font-semibold' : 'hover:text-[#151816]'}`}>Wardrobe</button>
             <button onClick={() => { setActiveTab('mix-canvas'); onNavigateToCanvas(); }} className={`pb-1 transition-all ${activeTab === 'mix-canvas' ? 'text-[#151816] border-b-2 border-[#1A3C24] font-semibold' : 'hover:text-[#151816]'}`}>Mix Canvas</button>
           </nav>
         </div>

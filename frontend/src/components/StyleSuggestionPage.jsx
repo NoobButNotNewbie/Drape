@@ -3,11 +3,12 @@ import { anchorItems } from '../data/wardrobeFocusData';
 import WardrobeFocusMobile from './mobile/WardrobeFocusMobile';
 import WardrobeFocusDesktop from './desktop/WardrobeFocusDesktop';
 
-export default function WardrobeFocusPage({
+export default function StyleSuggestionPage({
   isMobileFrame,
   onNavigateToCanvas,
-  onNavigateToWardrobeList,
   onOpenAuth,
+  pieces,
+  setPieces,
 }) {
   const [selectedItemId, setSelectedItemId] = useState(
     isMobileFrame ? 'navy-cable-knit-sweater' : 'essential-oxford-shirt'
@@ -26,18 +27,29 @@ export default function WardrobeFocusPage({
     setSelectedItemId(anchorItems[(currentIndex + 1) % anchorItems.length].id);
   };
 
+  // Thêm món đồ mới vào pool wardrobe dùng chung (wardrobePieces ở App.jsx),
+  // pool này cũng chính là pool Mix Canvas đang đọc.
+  const handleAddPiece = (newPiece) => {
+    setPieces((previous) => [newPiece, ...previous]);
+    setIsAddOpen(false);
+    showToast('Đã thêm món đồ mới vào Tủ đồ của tôi!', 3000);
+  };
+
   const sharedProps = {
     selectedItemId,
     toastMessage,
     onNavigateToCanvas,
     onSelectOtherItem: handleSelectOtherItem,
+    isAddOpen,
+    onAddOpen: () => setIsAddOpen(true),
+    onCloseAdd: () => setIsAddOpen(false),
+    onAddPiece: handleAddPiece,
   };
 
   if (isMobileFrame) {
     return (
       <WardrobeFocusMobile
         {...sharedProps}
-        onNavigateToWardrobeList={onNavigateToWardrobeList}
         onOpenAuth={onOpenAuth}
       />
     );
@@ -47,14 +59,7 @@ export default function WardrobeFocusPage({
     <WardrobeFocusDesktop
       {...sharedProps}
       isLiked={isLiked}
-      isAddOpen={isAddOpen}
       onSelectItem={setSelectedItemId}
-      onAddOpen={() => setIsAddOpen(true)}
-      onCloseAdd={() => setIsAddOpen(false)}
-      onAddPiece={() => {
-        setIsAddOpen(false);
-        showToast('Đã thêm món đồ mới vào Tủ đồ số!', 3000);
-      }}
       onShare={() => showToast('Đã sao chép liên kết trang phục!')}
       onToggleLike={() => {
         setIsLiked((previous) => !previous);

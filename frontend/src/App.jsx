@@ -8,11 +8,10 @@ import MobileBottomNav from './components/MobileBottomNav';
 import ProductModal from './components/ProductModal';
 import LookbookModal from './components/LookbookModal';
 import HomeDashboardPage from './components/HomeDashboardPage';
-import WardrobeFocusPage from './components/WardrobeFocusPage';
+import StyleSuggestionPage from './components/StyleSuggestionPage';
 import SearchPage from './components/SearchPage';
 import FeedPage from './components/FeedPage';
 import MixCanvasPage from './components/MixCanvasPage';
-import WardrobePage from './components/WardrobePage';
 import OutfitDetailPage from './components/OutfitDetailPage';
 import BrandAuthFlowPage from './components/brand-auth/BrandAuthFlowPage';
 import UserAuthFlowPage from './components/user-auth/UserAuthFlowPage';
@@ -25,7 +24,7 @@ import { Wifi, Battery, Signal, Check } from 'lucide-react';
 
 const pageFromPath = (pathname) => {
   if (pathname === '/' || pathname === '/feed') return 'feed';
-  if (pathname === '/wardrobe') return 'wardrobe';
+  if (pathname === '/wardrobe') return 'wardrobe-focus';
   if (pathname === '/mix-canvas' || pathname === '/canvas') return 'canvas';
   if (pathname === '/login') return 'user-auth';
   if (pathname.startsWith('/outfits/')) return 'outfit-detail';
@@ -37,7 +36,7 @@ const outfitIdFromPath = (pathname) => pathname.startsWith('/outfits/') ? pathna
 
 const pathFromPage = (page, selectedOutfit) => {
   if (page === 'feed') return '/feed';
-  if (page === 'wardrobe') return '/wardrobe';
+  if (page === 'wardrobe-focus') return '/wardrobe';
   if (page === 'canvas') return '/mix-canvas';
   if (page === 'outfit-detail') return `/outfits/${selectedOutfit?.id || 'the-modern-minimalist'}`;
   if (page === 'search') return '/search';
@@ -159,8 +158,6 @@ export default function App() {
       handlePageChange('home');
     } else if (tabId === 'feed') {
       handlePageChange('feed');
-    } else if (tabId === 'wardrobe') {
-      handlePageChange('wardrobe');
     } else if (tabId === 'canvas') {
       handlePageChange('canvas');
     } else if (tabId === 'profile') {
@@ -181,9 +178,6 @@ export default function App() {
     } else if (page === 'feed') {
       setActiveMobileTab('feed');
       setActiveDesktopTab('feed');
-    } else if (page === 'wardrobe') {
-      setActiveMobileTab('wardrobe');
-      setActiveDesktopTab('wardrobe');
     } else if (page === 'canvas') {
       setActiveMobileTab('canvas');
       setActiveDesktopTab('mix-canvas');
@@ -278,7 +272,7 @@ export default function App() {
                 setActiveTab={setActiveDesktopTab}
                 onNavigateToHome={() => handlePageChange('home')}
                 onNavigateToFeed={() => handlePageChange('feed')}
-                onNavigateToWardrobe={() => handlePageChange('wardrobe')}
+                onNavigateToWardrobe={() => handlePageChange('wardrobe-focus')}
                 onNavigateToCanvas={() => handlePageChange('canvas')}
                 onNavigateToSearch={() => handlePageChange('search')}
                 onNavigateToBrand={() => handlePageChange('brand')}
@@ -322,7 +316,7 @@ export default function App() {
                 setActiveTab={setActiveDesktopTab}
                 onNavigateToHome={() => handlePageChange('home')}
                 onNavigateToFeed={() => handlePageChange('feed')}
-                onNavigateToWardrobe={() => handlePageChange('wardrobe')}
+                onNavigateToWardrobe={() => handlePageChange('wardrobe-focus')}
                 onNavigateToCanvas={() => handlePageChange('canvas')}
                 onNavigateToSearch={() => handlePageChange('search')}
                 onNavigateToBrand={() => handlePageChange('brand')}
@@ -332,12 +326,13 @@ export default function App() {
               />
             )}
 
-            <WardrobeFocusPage
+            <StyleSuggestionPage
               isMobileFrame={isMobile}
               onNavigateToCanvas={() => handlePageChange('canvas')}
-              onNavigateToWardrobeList={() => handlePageChange('wardrobe')}
               onOpenAuth={handleOpenAuth}
               onOpenNotifications={handleOpenNotifications}
+              pieces={wardrobePieces}
+              setPieces={setWardrobePieces}
             />
           </div>
 
@@ -365,7 +360,7 @@ export default function App() {
                 setActiveTab={setActiveDesktopTab}
                 onNavigateToHome={() => handlePageChange('home')}
                 onNavigateToFeed={() => handlePageChange('feed')}
-                onNavigateToWardrobe={() => handlePageChange('wardrobe')}
+                onNavigateToWardrobe={() => handlePageChange('wardrobe-focus')}
                 onNavigateToCanvas={() => handlePageChange('canvas')}
                 onNavigateToSearch={() => handlePageChange('search')}
                 onNavigateToBrand={() => handlePageChange('brand')}
@@ -395,49 +390,6 @@ export default function App() {
       );
     }
 
-    // 4. DIGITAL WARDROBE PAGE
-    if (currentPage === 'wardrobe') {
-      return (
-        <div className="bg-[#FBFBFA] min-h-screen text-[#151816] flex flex-col justify-between">
-          <div>
-            {!isMobile && (
-              <Navbar
-                isMobileFrame={false}
-                activeTab="wardrobe"
-                setActiveTab={setActiveDesktopTab}
-                onNavigateToFeed={() => handlePageChange('feed')}
-                onNavigateToWardrobe={() => handlePageChange('wardrobe')}
-                onNavigateToCanvas={() => handlePageChange('canvas')}
-                onNavigateToSearch={() => handlePageChange('search')}
-                onNavigateToBrand={() => handlePageChange('brand')}
-                onOpenAuth={handleOpenAuth}
-                onOpenNotifications={handleOpenNotifications}
-                currentUser={currentUser}
-              />
-            )}
-
-            <WardrobePage
-              isMobileFrame={isMobile}
-              onNavigateToCanvas={() => handlePageChange('canvas')}
-              onOpenAuth={handleOpenAuth}
-              onOpenNotifications={handleOpenNotifications}
-              pieces={wardrobePieces}
-              setPieces={setWardrobePieces}
-            />
-          </div>
-
-          {isMobile ? (
-            <MobileBottomNav
-              activeTab={activeMobileTab}
-              setActiveTab={handleMobileTabChange}
-            />
-          ) : (
-            <Footer />
-          )}
-        </div>
-      );
-    }
-
     // 3. MIX CANVAS PAGE
     if (currentPage === 'canvas') {
       return (
@@ -449,7 +401,7 @@ export default function App() {
                 activeTab="mix-canvas"
                 setActiveTab={setActiveDesktopTab}
                 onNavigateToFeed={() => handlePageChange('feed')}
-                onNavigateToWardrobe={() => handlePageChange('wardrobe')}
+                onNavigateToWardrobe={() => handlePageChange('wardrobe-focus')}
                 onNavigateToCanvas={() => handlePageChange('canvas')}
                 onNavigateToSearch={() => handlePageChange('search')}
                 onNavigateToBrand={() => handlePageChange('brand')}
@@ -466,6 +418,7 @@ export default function App() {
               onOpenAuth={handleOpenAuth}
               onOpenNotifications={handleOpenNotifications}
               wardrobePieces={wardrobePieces}
+              setWardrobePieces={setWardrobePieces}
             />
           </div>
 
@@ -490,7 +443,7 @@ export default function App() {
                 activeTab="feed"
                 setActiveTab={setActiveDesktopTab}
                 onNavigateToFeed={() => handlePageChange('feed')}
-                onNavigateToWardrobe={() => handlePageChange('wardrobe')}
+                onNavigateToWardrobe={() => handlePageChange('wardrobe-focus')}
                 onNavigateToCanvas={() => handlePageChange('canvas')}
                 onNavigateToSearch={() => handlePageChange('search')}
                 onNavigateToBrand={() => handlePageChange('brand')}
@@ -536,7 +489,7 @@ export default function App() {
                 activeTab={activeDesktopTab}
                 setActiveTab={setActiveDesktopTab}
                 onNavigateToFeed={() => handlePageChange('feed')}
-                onNavigateToWardrobe={() => handlePageChange('wardrobe')}
+                onNavigateToWardrobe={() => handlePageChange('wardrobe-focus')}
                 onNavigateToCanvas={() => handlePageChange('canvas')}
                 onNavigateToSearch={() => handlePageChange('search')}
                 onNavigateToBrand={() => handlePageChange('brand')}
@@ -601,7 +554,7 @@ export default function App() {
             activeTab="wardrobe"
             setActiveTab={setActiveDesktopTab}
             onNavigateToFeed={() => handlePageChange('feed')}
-            onNavigateToWardrobe={() => handlePageChange('wardrobe')}
+            onNavigateToWardrobe={() => handlePageChange('wardrobe-focus')}
             onNavigateToCanvas={() => handlePageChange('canvas')}
             onNavigateToSearch={() => handlePageChange('search')}
             onNavigateToBrand={() => handlePageChange('brand')}

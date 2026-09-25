@@ -7,9 +7,25 @@ export default function AddPieceModal({ isOpen, onClose, onAddPiece }) {
   const [category, setCategory] = useState('tops');
   const [brand, setBrand] = useState('Linen & Logic');
   const [badge, setBadge] = useState('HIGH CONF.');
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
 
   if (!isOpen) return null;
+
+  const handleImageChange = (event) => {
+    const file = event.target.files?.[0];
+    if (!file) {
+      setImageFile(null);
+      setImagePreview('');
+      return;
+    }
+
+    setImageFile(file);
+    const reader = new FileReader();
+    reader.onloadend = () => setImagePreview(reader.result || '');
+    reader.readAsDataURL(file);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,14 +39,14 @@ export default function AddPieceModal({ isOpen, onClose, onAddPiece }) {
       brand,
       badge,
       badgeType: badge === 'VERSATILE' ? 'dark-green' : 'light-green',
-      image:
-        category === 'tops'
+      image: imagePreview ||
+        (category === 'tops'
           ? 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?q=80&w=800&auto=format&fit=crop'
           : category === 'bottoms'
           ? 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=800&auto=format&fit=crop'
           : category === 'shoes'
           ? 'https://images.unsplash.com/photo-1549298916-b41d501d3772?q=80&w=800&auto=format&fit=crop'
-          : 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800&auto=format&fit=crop',
+          : 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800&auto=format&fit=crop'),
       matchesOutfits: Math.floor(Math.random() * 8) + 4,
     };
 
@@ -40,6 +56,8 @@ export default function AddPieceModal({ isOpen, onClose, onAddPiece }) {
       setIsSuccess(false);
       setName('');
       setSubtitle('');
+      setImageFile(null);
+      setImagePreview('');
       onClose();
     }, 1000);
   };
@@ -143,6 +161,22 @@ export default function AddPieceModal({ isOpen, onClose, onAddPiece }) {
                 <option value="FORMAL">FORMAL</option>
               </select>
             </div>
+          </div>
+
+          <div>
+            <label className="block text-[11px] font-semibold text-[#4A4740] uppercase tracking-wider mb-1">
+              Ảnh món đồ (tuỳ chọn)
+            </label>
+            <label className="flex cursor-pointer items-center justify-center gap-2 rounded-md border border-dashed border-[#D9D3C7] bg-white px-3 py-2.5 text-xs text-[#183B22] transition hover:border-[#183B22]">
+              <Upload className="w-4 h-4" />
+              <span>{imageFile ? imageFile.name : 'Tải ảnh lên'}</span>
+              <input type="file" accept="image/*" className="hidden" onChange={handleImageChange} />
+            </label>
+            {imagePreview && (
+              <div className="mt-2 overflow-hidden rounded-md border border-[#E2DDD3] bg-white p-2">
+                <img src={imagePreview} alt="Preview" className="h-24 w-full object-cover rounded-md" />
+              </div>
+            )}
           </div>
 
           <button

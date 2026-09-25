@@ -3,7 +3,6 @@ import { Dna, Shirt, User, Layers } from 'lucide-react';
 export default function MobileBottomNav({ activeTab = 'feed', setActiveTab }) {
   const tabs = [
     { id: 'feed', label: 'Feed', icon: Dna },
-    { id: 'wardrobe', label: 'Tủ đồ', icon: Shirt },
     { id: 'canvas', label: 'Tư vấn', icon: Layers },
     { id: 'profile', label: 'Hồ sơ', icon: User },
   ];

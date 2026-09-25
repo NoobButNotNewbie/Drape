@@ -45,17 +45,6 @@ export default function DeviceSimulatorBar({
               3. Feed
             </button>
             <button
-              onClick={() => onPageChange('wardrobe')}
-              className={`px-2 py-1 rounded-md font-medium transition-all ${
-                currentPage === 'wardrobe'
-                  ? 'bg-[#21432C] text-white shadow-xs font-semibold'
-                  : 'text-[#9CB0A2] hover:text-white'
-              }`}
-              title="Digital Wardrobe (Tủ đồ số đầy đủ)"
-            >
-              4. Wardrobe
-            </button>
-            <button
               onClick={() => onPageChange('canvas')}
               className={`px-2 py-1 rounded-md font-medium transition-all ${
                 currentPage === 'canvas'
