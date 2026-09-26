@@ -5,7 +5,7 @@ export default function UserAuthFooter({ isColumnsVariant = false, isSimple = fa
     return (
       <footer className="w-full border-t border-[#EAE6DF] bg-[#FBFBFA] mt-auto py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 text-xs text-[#6A675F]">
-          {/* Column 1: Brand */}
+          {/* Column 1: Overview */}
           <div>
             <div className="font-serif-luxury font-bold text-lg tracking-widest text-[#1A3C24] mb-3">
               DRAPE
@@ -79,7 +79,7 @@ export default function UserAuthFooter({ isColumnsVariant = false, isSimple = fa
   return (
     <footer className="w-full border-t border-[#EAE6DF] bg-[#FBFBFA] mt-auto py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-8 flex flex-col md:flex-row items-center justify-between gap-4 text-[11px] text-[#706D65]">
-        {/* Left: Brand Name */}
+        {/* Left: Name */}
         <div className="font-serif-luxury font-bold text-sm tracking-widest text-[#1A3C24]">
           DRAPE
         </div>

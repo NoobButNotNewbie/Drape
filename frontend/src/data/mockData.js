@@ -1,18 +1,3 @@
-export const brandData = {
-  name: 'Linen & Logic',
-  monogram: 'L&L',
-  category: 'Contemporary Menswear',
-  description:
-    'A contemporary menswear house dedicated to the art of understated luxury. We blend the architectural precision of logic with the organic ease of premium linen, crafting timeless silhouettes for the discerning modern gentleman.',
-  shortDescription:
-    'A contemporary menswear house dedicated to the art of understated luxury',
-  followers: 12840,
-  formattedFollowers: '12.8k',
-  outfitsCount: 142,
-  confidenceScore: '94%',
-  dnaMatchSummary: 'Aligned with your quiet luxury & earth-toned profile',
-};
-
 export const curatedOutfits = [
   {
     id: 'nautical-minimalist',

@@ -1,11 +1,9 @@
-// Mock data for Home Stylist Dashboard (Desktop & Mobile)
 export const heroCollection = {
   exclusiveTag: 'COLLECTION EXCLUSIVE',
   seasonalTag: 'SEASONAL COLLECTION',
   title: 'Autumn/Winter 2024: The Modern Minimalist',
   subtitle: 'Dành cho những người đàn ông theo đuổi sự chỉn chu và thanh lịch vượt thời gian.',
   desktopImage: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1600&q=85',
-  mobileImage: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=800&q=85',
 };
 
 export const quickActionCards = [

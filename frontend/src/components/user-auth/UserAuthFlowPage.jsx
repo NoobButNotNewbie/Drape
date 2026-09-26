@@ -8,7 +8,6 @@ export default function UserAuthFlowPage({
   initialSubScreen = 'user-login',
   onBackToApp,
   onToast,
-  onNavigateToBrand,
   onAuthSuccess,
 }) {
   const [currentScreen, setCurrentScreen] = useState(initialSubScreen);
@@ -18,12 +17,6 @@ export default function UserAuthFlowPage({
   }, [initialSubScreen]);
 
   const handleNavigate = (screen) => {
-    if (screen === 'brand-auth' || screen.startsWith('brand-')) {
-      if (onNavigateToBrand) {
-        onNavigateToBrand(screen);
-        return;
-      }
-    }
     setCurrentScreen(screen);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };

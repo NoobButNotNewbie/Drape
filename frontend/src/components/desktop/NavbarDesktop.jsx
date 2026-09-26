@@ -1,7 +1,7 @@
 import React from 'react';
-import { Search, Bell, User } from 'lucide-react';
+import { Search, Bell, User, ShieldCheck } from 'lucide-react';
 
-export default function NavbarDesktop({ activeTab, setActiveTab, onNavigateToHome, onNavigateToFeed, onNavigateToWardrobe, onNavigateToCanvas, onNavigateToSearch, onNavigateToBrand, onOpenAuth, onOpenNotifications, currentUser }) {
+export default function NavbarDesktop({ activeTab, setActiveTab, onNavigateToFeed, onNavigateToWardrobe, onNavigateToCanvas, onNavigateToSearch, onNavigateToAdmin, onOpenAuth, onOpenNotifications, currentUser }) {
   const avatarUrl = currentUser?.user_metadata?.avatar_url || currentUser?.user_metadata?.picture;
 
   return (
@@ -12,11 +12,15 @@ export default function NavbarDesktop({ activeTab, setActiveTab, onNavigateToHom
           <nav className="hidden md:flex items-center space-x-7 text-sm font-medium text-[#6A675F]">
             <button onClick={() => { setActiveTab('feed'); onNavigateToFeed(); }} className={`pb-1 transition-all ${activeTab === 'feed' ? 'text-[#151816] border-b-2 border-[#1A3C24] font-semibold' : 'hover:text-[#151816]'}`}>Feed</button>
             <button onClick={() => { setActiveTab('mix-canvas'); onNavigateToCanvas(); }} className={`pb-1 transition-all ${activeTab === 'mix-canvas' ? 'text-[#151816] border-b-2 border-[#1A3C24] font-semibold' : 'hover:text-[#151816]'}`}>Mix Canvas</button>
+            <button onClick={onNavigateToAdmin} className="pb-1 transition-all text-[#7D7A73] hover:text-[#151816] flex items-center gap-1.5">
+              <ShieldCheck className="w-3.5 h-3.5" />
+              Admin
+            </button>
           </nav>
         </div>
         <div className="flex items-center space-x-4">
-          <div onClick={onNavigateToSearch} className="relative hidden sm:block cursor-pointer" title="Click to search styles, brands & outfits">
-            <input type="text" readOnly placeholder="Search brands..." className="w-48 lg:w-64 pl-9 pr-4 py-1.5 text-xs bg-[#F4F1EA] border border-transparent hover:border-[#DCD7CD] focus:border-[#1A3C24] focus:bg-white rounded-full outline-none transition-all placeholder:text-[#9B9890] cursor-pointer" />
+          <div onClick={onNavigateToSearch} className="relative hidden sm:block cursor-pointer" title="Click to search styles and outfits">
+            <input type="text" readOnly placeholder="Search styles..." className="w-48 lg:w-64 pl-9 pr-4 py-1.5 text-xs bg-[#F4F1EA] border border-transparent hover:border-[#DCD7CD] focus:border-[#1A3C24] focus:bg-white rounded-full outline-none transition-all placeholder:text-[#9B9890] cursor-pointer" />
             <Search className="w-3.5 h-3.5 text-[#86837C] absolute left-3.5 top-1/2 -translate-y-1/2" />
           </div>
           <button onClick={onOpenNotifications || onOpenAuth} className="p-2 text-[#56544E] hover:text-[#151816] hover:bg-[#EFECE6] rounded-full transition-colors relative" title="Notifications"><Bell className="w-4.5 h-4.5" /><span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-[#1A3C24] rounded-full" /></button>

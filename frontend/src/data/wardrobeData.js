@@ -15,7 +15,6 @@ export const initialWardrobePieces = [
     badge: 'HIGH CONF.',
     badgeType: 'light-green',
     image: 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=800&auto=format&fit=crop',
-    brand: 'Linen & Logic',
     matchesOutfits: 8,
   },
   {
@@ -26,7 +25,6 @@ export const initialWardrobePieces = [
     badge: 'VERSATILE',
     badgeType: 'dark-green',
     image: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=800&auto=format&fit=crop',
-    brand: 'Linen & Logic',
     matchesOutfits: 14,
   },
   {
@@ -37,7 +35,6 @@ export const initialWardrobePieces = [
     badge: 'ESSENTIAL',
     badgeType: 'light-green',
     image: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?q=80&w=800&auto=format&fit=crop',
-    brand: "Biti's Hunter",
     matchesOutfits: 19,
   },
   {
@@ -48,7 +45,6 @@ export const initialWardrobePieces = [
     badge: 'FORMAL',
     badgeType: 'gray',
     image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800&auto=format&fit=crop',
-    brand: 'Vary Vietnam',
     matchesOutfits: 6,
   },
   {
@@ -59,7 +55,6 @@ export const initialWardrobePieces = [
     badge: 'HIGH CONF.',
     badgeType: 'light-green',
     image: 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?q=80&w=800&auto=format&fit=crop',
-    brand: 'Aether Collective',
     matchesOutfits: 15,
   },
   {
@@ -71,7 +66,6 @@ export const initialWardrobePieces = [
     badgeType: 'starred',
     isActive: true,
     image: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?q=80&w=800&auto=format&fit=crop',
-    brand: 'Linen & Logic',
     matchesOutfits: 12,
   },
   {
@@ -82,7 +76,6 @@ export const initialWardrobePieces = [
     badge: 'SMART CASUAL',
     badgeType: 'gray',
     image: 'https://images.unsplash.com/photo-1533867617858-e7b97e060509?q=80&w=800&auto=format&fit=crop',
-    brand: 'Nomad Studio',
     matchesOutfits: 9,
   },
   {
@@ -93,7 +86,6 @@ export const initialWardrobePieces = [
     badge: 'SIZE 32/32',
     badgeType: 'gray',
     image: 'https://images.unsplash.com/photo-1542272604-780c96856592?q=80&w=800&auto=format&fit=crop',
-    brand: 'Core Basics',
     matchesOutfits: 11,
   },
   {
@@ -104,7 +96,6 @@ export const initialWardrobePieces = [
     badge: 'VERSATILE',
     badgeType: 'dark-green',
     image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=800&auto=format&fit=crop',
-    brand: 'Linen & Logic',
     matchesOutfits: 10,
   },
   {
@@ -115,7 +106,6 @@ export const initialWardrobePieces = [
     badge: 'DRY CLEAN ONLY',
     badgeType: 'gray',
     image: 'https://images.unsplash.com/photo-1576871337622-98d48d1cf531?q=80&w=800&auto=format&fit=crop',
-    brand: 'Vary Vietnam',
     matchesOutfits: 7,
   },
 ];

@@ -16,7 +16,6 @@ export const anchorItems = [
       {
         id: 'owen-trousers-kem',
         name: 'Quần Tây QT4323 Ống Rộng',
-        brand: 'OWEN',
         colorName: 'Kem',
         price: '450K',
         matchPercent: '94% Match',
@@ -25,7 +24,6 @@ export const anchorItems = [
       {
         id: 'owen-shoes-t4343',
         name: 'Giày Tây T4343',
-        brand: 'OWEN',
         colorName: 'Nâu Cổ Điển',
         price: '890K',
         matchPercent: '88% Match',
@@ -49,7 +47,6 @@ export const anchorItems = [
       {
         id: 'beige-tailored-trousers',
         name: 'Beige Tailored Wool Trousers',
-        brand: 'Linen & Logic',
         colorName: 'Beige Sand',
         price: '1,250K',
         matchPercent: '98% Match',
@@ -58,7 +55,6 @@ export const anchorItems = [
       {
         id: 'leather-oxford-brogues',
         name: 'Classic Oxford Leather Brogues',
-        brand: 'Vary Heritage',
         colorName: 'Dark Espresso',
         price: '1,950K',
         matchPercent: '95% Match',
@@ -82,7 +78,6 @@ export const anchorItems = [
       {
         id: 'cashmere-mock-neck',
         name: 'Fine Cashmere Mock-Neck',
-        brand: 'Core Studio',
         colorName: 'Oatmeal',
         price: '1,450K',
         matchPercent: '96% Match',
@@ -91,7 +86,6 @@ export const anchorItems = [
       {
         id: 'minimalist-loafers',
         name: 'Calfskin Penny Loafers',
-        brand: 'Aether Leather',
         colorName: 'Black Onyx',
         price: '2,100K',
         matchPercent: '93% Match',
@@ -115,7 +109,6 @@ export const anchorItems = [
       {
         id: 'heavyweight-overshirt',
         name: 'Heavyweight Utility Overshirt',
-        brand: 'Nomad Workwear',
         colorName: 'Olive Drab',
         price: '980K',
         matchPercent: '91% Match',
@@ -124,7 +117,6 @@ export const anchorItems = [
       {
         id: 'suede-chelsea-boots',
         name: 'Tobacco Suede Chelsea Boots',
-        brand: 'Vary Heritage',
         colorName: 'Tobacco Brown',
         price: '1,850K',
         matchPercent: '94% Match',

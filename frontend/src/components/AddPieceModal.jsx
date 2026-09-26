@@ -5,7 +5,6 @@ export default function AddPieceModal({ isOpen, onClose, onAddPiece }) {
   const [name, setName] = useState('');
   const [subtitle, setSubtitle] = useState('');
   const [category, setCategory] = useState('tops');
-  const [brand, setBrand] = useState('Linen & Logic');
   const [badge, setBadge] = useState('HIGH CONF.');
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState('');
@@ -36,7 +35,6 @@ export default function AddPieceModal({ isOpen, onClose, onAddPiece }) {
       name,
       subtitle: subtitle.toUpperCase() || 'CLASSIC',
       category,
-      brand,
       badge,
       badgeType: badge === 'VERSATILE' ? 'dark-green' : 'light-green',
       image: imagePreview ||
@@ -133,19 +131,6 @@ export default function AddPieceModal({ isOpen, onClose, onAddPiece }) {
           </div>
 
           <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="block text-[11px] font-semibold text-[#4A4740] uppercase tracking-wider mb-1">
-                Thương hiệu
-              </label>
-              <input
-                type="text"
-                value={brand}
-                onChange={(e) => setBrand(e.target.value)}
-                placeholder="VD: Linen & Logic, Uniqlo..."
-                className="w-full px-3 py-2 text-xs bg-white border border-[#D9D3C7] rounded-md outline-none focus:border-[#183B22] transition-colors"
-              />
-            </div>
-
             <div>
               <label className="block text-[11px] font-semibold text-[#4A4740] uppercase tracking-wider mb-1">
                 Nhãn đánh giá

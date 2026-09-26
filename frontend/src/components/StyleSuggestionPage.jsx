@@ -1,18 +1,14 @@
 import React, { useState } from 'react';
 import { anchorItems } from '../data/wardrobeFocusData';
-import WardrobeFocusMobile from './mobile/WardrobeFocusMobile';
 import WardrobeFocusDesktop from './desktop/WardrobeFocusDesktop';
 
 export default function StyleSuggestionPage({
-  isMobileFrame,
   onNavigateToCanvas,
   onOpenAuth,
   pieces,
   setPieces,
 }) {
-  const [selectedItemId, setSelectedItemId] = useState(
-    isMobileFrame ? 'navy-cable-knit-sweater' : 'essential-oxford-shirt'
-  );
+  const [selectedItemId, setSelectedItemId] = useState('essential-oxford-shirt');
   const [isLiked, setIsLiked] = useState(false);
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
@@ -45,15 +41,6 @@ export default function StyleSuggestionPage({
     onCloseAdd: () => setIsAddOpen(false),
     onAddPiece: handleAddPiece,
   };
-
-  if (isMobileFrame) {
-    return (
-      <WardrobeFocusMobile
-        {...sharedProps}
-        onOpenAuth={onOpenAuth}
-      />
-    );
-  }
 
   return (
     <WardrobeFocusDesktop

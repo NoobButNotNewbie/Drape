@@ -37,7 +37,7 @@ export default function AuthModal({ isOpen, onClose }) {
           <X className="w-5 h-5" />
         </button>
 
-        {/* Brand Header */}
+        {/* Header */}
         <div className="text-center mb-6">
           <div className="font-serif-luxury text-2xl font-bold tracking-widest text-[#151816] mb-1">
             DRAPE

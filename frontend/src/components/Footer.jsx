@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className="border-t border-[#EAE6DF] bg-[#FBFBFA] pt-12 pb-16 text-[#6A675F]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-8 pb-10 border-b border-[#EFECE6]">
-          {/* Brand Info */}
+          {/* Info */}
           <div className="max-w-xs">
             <h4 className="font-serif-luxury text-xl font-bold tracking-widest text-[#151816] mb-2">
               DRAPE

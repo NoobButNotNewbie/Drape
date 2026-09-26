@@ -11,8 +11,6 @@ export const outfitDetails = {
     items: [
       {
         id: 'item-coolmate',
-        brand: 'COOLMATE',
-        isLocalBrand: true,
         name: 'Excool Premium T-Shirt',
         price: '299.000₫',
         image: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?q=80&w=500&auto=format&fit=crop',
@@ -23,8 +21,6 @@ export const outfitDetails = {
       },
       {
         id: 'item-uniqlo',
-        brand: 'UNIQLO',
-        isLocalBrand: false,
         name: 'Smart Ankle Pants (Cotton)',
         price: '799.000₫',
         image: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=500&auto=format&fit=crop',
@@ -35,8 +31,6 @@ export const outfitDetails = {
       },
       {
         id: 'item-bitis',
-        brand: "BITI'S HUNTER",
-        isLocalBrand: true,
         name: 'Nameless Edition White',
         price: '950.000₫',
         image: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?q=80&w=500&auto=format&fit=crop',
@@ -100,8 +94,6 @@ export const outfitDetails = {
     items: [
       {
         id: 'item-sweater',
-        brand: 'LINEN & LOGIC',
-        isLocalBrand: false,
         badge: 'PREMIUM',
         name: 'Navy Blue Cable-Knit Sweater',
         price: '1.250.000₫',
@@ -110,8 +102,6 @@ export const outfitDetails = {
       },
       {
         id: 'item-trousers',
-        brand: 'LINEN & LOGIC',
-        isLocalBrand: false,
         name: 'Tailored Off-White Trousers',
         price: '890.000₫',
         image: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=500&auto=format&fit=crop',
@@ -119,8 +109,6 @@ export const outfitDetails = {
       },
       {
         id: 'item-sneakers',
-        brand: 'LINEN & LOGIC',
-        isLocalBrand: false,
         name: 'White Luxury Leather Sneakers',
         price: '1.550.000₫',
         image: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?q=80&w=500&auto=format&fit=crop',
