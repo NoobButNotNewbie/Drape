@@ -16,7 +16,7 @@ import { initialWardrobePieces } from './data/wardrobeData';
 import { Wifi, Battery, Signal, Check } from 'lucide-react';
 
 const pageFromPath = (pathname) => {
-  if (pathname === '/' || pathname === '/feed') return 'feed';
+  if (pathname === '/' || pathname === '/feed' || pathname === '/auth/callback') return 'feed';
   if (pathname === '/wardrobe') return 'wardrobe-focus';
   if (pathname === '/mix-canvas' || pathname === '/canvas') return 'canvas';
   if (pathname === '/login') return 'user-auth';
@@ -83,6 +83,11 @@ export default function App() {
     let mounted = true;
     const restorePendingAuth = () => {
       const pendingOutfitId = sessionStorage.getItem('drape_auth_outfit_id');
+      if (window.location.pathname === '/auth/callback') {
+        window.history.replaceState({ page: 'feed' }, '', '/feed');
+        setCurrentPage('feed');
+        return;
+      }
       if (!pendingOutfitId) {
         if (window.location.pathname === '/login') {
           window.history.replaceState({ page: 'feed' }, '', '/feed');

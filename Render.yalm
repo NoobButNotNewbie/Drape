@@ -3,6 +3,7 @@ services:
   - type: web
     name: drape-backend
     runtime: node
+    region: singapore
     rootDir: backend
     plan: free
     buildCommand: npm install
@@ -23,6 +24,7 @@ services:
   - type: web
     name: drape-frontend
     runtime: static
+    region: singapore
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist

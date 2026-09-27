@@ -1,6 +1,6 @@
 import { supabase } from './supabase';
 
-const redirectTo = `${window.location.origin}/login`;
+const redirectTo = `${window.location.origin}/auth/callback`;
 
 export async function signInWithEmail({ email, password }) {
   const { data, error } = await supabase.auth.signInWithPassword({ email, password });
